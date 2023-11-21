@@ -26,3 +26,8 @@ jobs:
             docker build -t $DOCKERHUB_USERNAME/nodeffmpeg:$TAG .
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker push $DOCKERHUB_USERNAME/nodeffmpeg:$TAG
+            # Check if current branch is main
+            if [ "$CIRCLE_BRANCH" = "main" ]; then
+              docker tag $DOCKERHUB_USERNAME/nodeffmpeg:$TAG $DOCKERHUB_USERNAME/nodeffmpeg:latest
+              docker push $DOCKERHUB_USERNAME/nodeffmpeg:latest
+            fi
